@@ -8,11 +8,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
 
-  @Override
-  public void sayHello(HelloProto.HelloRequest request, StreamObserver<HelloProto.HelloResponse> responseObserver) {
-    String greeting = "Bauti, " + request.getName();
-    HelloProto.HelloResponse response = HelloProto.HelloResponse.newBuilder().setMessage(greeting).build();
-    responseObserver.onNext(response);
-    responseObserver.onCompleted();
-  }
+    @Override
+    public void sayHello(HelloProto.BookRequest request, StreamObserver<HelloProto.BookResponse> responseObserver) {
+
+        Book book = bookRepository.findById(request.getIdBook()).get();
+        HelloProto.BookResponse response = HelloProto.BookResponse.newBuilder()
+                .setIdBook(book.getId())
+                .setAuthor(book.getAuthor())
+                .setGenre(book.getGenre())
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }

@@ -3,14 +3,17 @@ syntax = "proto3";
 option java_package = "com.example.grpc";
 option java_outer_classname = "HelloProto";
 
-service HelloService {
-  rpc SayHello (HelloRequest) returns (HelloResponse);
+service BookService {
+  rpc SayHello (BookRequest) returns (BookResponse);
 }
 
-message HelloRequest {
-  string name = 1;
+message BookRequest {
+  int64 id_book = 1;
 }
 
-message HelloResponse {
-  string message = 1;
+message BookResponse {
+  int64 id_book = 1;
+  string title = 2;
+  string author = 3;
+  string genre = 4;
 }

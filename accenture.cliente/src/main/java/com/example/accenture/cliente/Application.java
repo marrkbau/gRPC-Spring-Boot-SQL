@@ -9,7 +9,7 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 		HelloClient client = new HelloClient("localhost", 8090);
-		client.greet("World");
+		client.greet(1L);
 	}
 
 }

@@ -13,17 +13,23 @@ public class HelloClient {
 
   private final HelloServiceBlockingStub blockingStub;
 
-  public HelloClient(String host, int port) {
-    ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
-        .usePlaintext()
-        .build();
-    blockingStub = HelloServiceGrpc.newBlockingStub(channel);
-  }
+    public HelloClient(String host, int port) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
+                .usePlaintext()
+                .build();
+        blockingStub = BookServiceGrpc.newBlockingStub(channel);
+    }
 
-  public void greet(String name) {
-    HelloRequest request = HelloRequest.newBuilder().setName(name).build();
-    HelloResponse response = blockingStub.sayHello(request);
-    System.out.println(response.getMessage());
-  }
 
+    public void greet(Long id_book) {
+        try {
+            HelloProto.BookRequest request = BookRequest.newBuilder().setIdBook(id_book).build();
+            HelloProto.BookResponse response = blockingStub.sayHello(request);
+            System.out.println("Author: " + response.getAuthor() + ", Genre: " + response.getGenre());
+        } catch (StatusRuntimeException e) {
+            System.out.println("gRPC failed: " + e.getStatus());
+        }
+    }
 }
+// que hacemos que rompe? no se el sayHello proba si funca con postman @tobi
+// toy viendo jeje
