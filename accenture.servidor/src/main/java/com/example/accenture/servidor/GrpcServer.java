@@ -2,6 +2,7 @@ package com.example.accenture.servidor;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +18,13 @@ public class GrpcServer {
 
     private Server server;
 
+    @Autowired
+    private HelloServiceImpl helloService;
+
     @PostConstruct
     public void start() throws IOException {
         server = ServerBuilder.forPort(port)
-                .addService(new HelloServiceImpl()) // Añade tu implementación del servicio gRPC aquí
+                .addService(helloService) // Spring will inject the service here
                 .build()
                 .start();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -36,6 +40,4 @@ public class GrpcServer {
             server.shutdown();
         }
     }
-
-
 }
