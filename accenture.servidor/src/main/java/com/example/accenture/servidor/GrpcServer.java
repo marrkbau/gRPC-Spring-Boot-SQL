@@ -26,7 +26,7 @@ public class GrpcServer {
         server = ServerBuilder.forPort(port)
                 .addService(helloService) // Spring will inject the service here
                 .build()
-                .start();
+                .start();//
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.err.println("Shutting down gRPC server since JVM is shutting down");
             GrpcServer.this.stop();
